@@ -5,6 +5,7 @@ Restful API to transfer money between two accounts
 
 - Java 11
 - JAX-RS API
+- Jetty
 - H2 in memory database
 - Hibernate
 - JUnit
