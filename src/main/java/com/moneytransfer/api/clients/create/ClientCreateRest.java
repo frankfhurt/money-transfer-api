@@ -36,8 +36,6 @@ public class ClientCreateRest {
 		this.businessService = businessService;
 	}
 
-
-
 	@POST
 	public Response create(@Valid @NotNull(message = "request cannot be null") ClientCreateRequest request) {
 		try {
