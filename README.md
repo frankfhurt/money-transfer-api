@@ -23,13 +23,18 @@ Restful API to transfer money between two accounts
 POST : http://localhost:8080/clients
 
 Request Payload:
+
+```sh
 {
     "name": "John",
     "document": "DOC10231",
     "initialDeposit" : "10.55"
 }
+```
 
 Response:
+
+```sh
 {
     "id": 1,
     "name": "John",
@@ -37,11 +42,14 @@ Response:
         "balance": 10.55
     }
 }
+```
 
 ### Retrieve a client
 GET : http://localhost:8080/clients/{clientId}
 
 Response:
+
+```sh
 {
     "id": 1,
     "name": "John",
@@ -51,17 +59,24 @@ Response:
         "balance": 10.55
     }
 }
+```
 
 ### Transfer money
 POST : http://localhost:8080/clients/{clientId}/accounts/transactions
 
 Request Payload:
+
+```sh
 {
 	"amount" : 5,
 	"toClientId" : 3
 }
+```
 
 Response:
+
+```sh
 {
     "newBalance": "5.55"
 }
+```
