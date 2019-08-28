@@ -15,8 +15,14 @@ Restful API to transfer money between two accounts
 
 ## How to run
 
-- Generate resources running: mvn clean install
-- Run the fat jar: java -jar target/money-transfer-api-0.0.1-SNAPSHOT-jar-with-dependencies.jar
+- Generate resources running: 
+```sh
+mvn clean install
+```
+- Run the fat jar:
+```sh
+java -jar target/money-transfer-api-0.0.1-SNAPSHOT-jar-with-dependencies.jar
+```
 
 ## Available endpoints
 
