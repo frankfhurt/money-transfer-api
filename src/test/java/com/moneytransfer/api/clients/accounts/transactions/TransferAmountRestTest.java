@@ -38,7 +38,7 @@ public class TransferAmountRestTest extends ApiTest {
 		Long from = ClientCreateRestHelper.createClient(PORT, "Frank", "50");
 		Long to = ClientCreateRestHelper.createClient(PORT, "Alice", "0");
 		
-		String body = "{\r\n" + 
+		String body = "{" + 
 							"\"amount\" : 5," + 
 							"\"toClientId\" : \"" + to + "\"" +
 						"}";
@@ -61,7 +61,7 @@ public class TransferAmountRestTest extends ApiTest {
 		Long from = ClientCreateRestHelper.createClient(PORT, "Frank", "50");
 		Long to = ClientCreateRestHelper.createClient(PORT, "Alice", "0");
 		
-		String body = "{\r\n" + 
+		String body = "{" + 
 							"\"amount\" : 5.15," + 
 							"\"toClientId\" : \"" + to + "\"" +
 						"}";
@@ -79,12 +79,35 @@ public class TransferAmountRestTest extends ApiTest {
 	}
 	
 	@Test
+	public void transfer_amountWithSameValueAsAccountBalance_shouldTransferAmounts() throws IOException, InterruptedException {
+		
+		Long from = ClientCreateRestHelper.createClient(PORT, "Frank", "50");
+		Long to = ClientCreateRestHelper.createClient(PORT, "Alice", "0");
+		
+		String body = "{" + 
+							"\"amount\" : 50," + 
+							"\"toClientId\" : \"" + to + "\"" +
+						"}";
+		
+		HttpResponse<String> response = sendRequest(from, body);
+		
+		assertThat(response.statusCode(), is(200));
+		assertThat(response.body(), containsString("newBalance"));
+		
+		ClientDetailResponse fromDetail = ClientDetailRestHelper.getDetail(PORT, from);
+		ClientDetailResponse toDetail = ClientDetailRestHelper.getDetail(PORT, to);
+		
+		assertThat(fromDetail.getAccount().getBalance(), is(0.0));
+		assertThat(toDetail.getAccount().getBalance(), is(50.00));
+	}
+	
+	@Test
 	public void transfer_amountWithMoreThanTwoDecimals_invalidRequestError() throws IOException, InterruptedException {
 		
 		Long from = ClientCreateRestHelper.createClient(PORT, "Frank", "50");
 		Long to = ClientCreateRestHelper.createClient(PORT, "Alice", "0");
 		
-		String body = "{\r\n" + 
+		String body = "{" + 
 							"\"amount\" : 5.123," + 
 							"\"toClientId\" : \"" + to + "\"" +
 						"}";
@@ -108,7 +131,7 @@ public class TransferAmountRestTest extends ApiTest {
 		Long from = ClientCreateRestHelper.createClient(PORT, "Frank", "50");
 		Long to = ClientCreateRestHelper.createClient(PORT, "Alice", "0");
 		
-		String body = "{\r\n" + 
+		String body = "{" + 
 							"\"toClientId\" : \"" + to + "\"" +
 						"}";
 		
@@ -131,7 +154,7 @@ public class TransferAmountRestTest extends ApiTest {
 		Long from = ClientCreateRestHelper.createClient(PORT, "Frank", "50");
 		Long to = ClientCreateRestHelper.createClient(PORT, "Alice", "0");
 		
-		String body = "{\r\n" + 
+		String body = "{" + 
 							"\"amount\" : 5," + 
 							"\"toClientId\" : \"value\"" +
 						"}";
@@ -155,7 +178,7 @@ public class TransferAmountRestTest extends ApiTest {
 		Long from = ClientCreateRestHelper.createClient(PORT, "Frank", "50");
 		Long to = ClientCreateRestHelper.createClient(PORT, "Alice", "0");
 		
-		String body = "{\r\n" + 
+		String body = "{" + 
 							"\"amount\" : 5" + 
 						"}";
 		
@@ -198,7 +221,7 @@ public class TransferAmountRestTest extends ApiTest {
 		
 		Long to = ClientCreateRestHelper.createClient(PORT, "Alice", "0");
 		
-		String body = "{\r\n" + 
+		String body = "{" + 
 							"\"amount\" : 5," + 
 							"\"toClientId\" : \"" + to + "\"" +
 						"}";
@@ -224,7 +247,7 @@ public class TransferAmountRestTest extends ApiTest {
 		
 		Long from = ClientCreateRestHelper.createClient(PORT, "Frank", "50");
 		
-		String body = "{\r\n" + 
+		String body = "{" + 
 							"\"amount\" : 5," + 
 							"\"toClientId\" : \"12\"" + 
 						"}";
@@ -251,7 +274,7 @@ public class TransferAmountRestTest extends ApiTest {
 		Long from = ClientCreateRestHelper.createClient(PORT, "Frank", "500");
 		Long to = ClientCreateRestHelper.createClient(PORT, "Alice", "0");
 		
-		String body = "{\r\n" + 
+		String body = "{" + 
 							"\"amount\" : 1," + 
 							"\"toClientId\" : \"" + to + "\"" +
 						"}";
@@ -298,7 +321,7 @@ public class TransferAmountRestTest extends ApiTest {
 		Long from = ClientCreateRestHelper.createClient(PORT, "Frank", "1000");
 		Long to = ClientCreateRestHelper.createClient(PORT, "Alice", "0");
 		
-		String body = "{\r\n" + 
+		String body = "{" + 
 							"\"amount\" : 0.01," + 
 							"\"toClientId\" : \"" + to + "\"" +
 						"}";
@@ -349,7 +372,7 @@ public class TransferAmountRestTest extends ApiTest {
 		Long from = ClientCreateRestHelper.createClient(PORT, "Frank", "500");
 		Long to = ClientCreateRestHelper.createClient(PORT, "Alice", "0");
 		
-		String body = "{\r\n" + 
+		String body = "{" + 
 							"\"amount\" : 1," + 
 							"\"toClientId\" : \"" + to + "\"" +
 						"}";
