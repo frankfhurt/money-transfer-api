@@ -55,7 +55,7 @@ public class ClientDetailBusinessServiceTest {
 		
 		business = new ClientDetailBusinessService(repository);
 		
-		ClientDetailRequest request = new ClientDetailRequest(1L);
+		ClientDetailRequest request = new ClientDetailRequest(12L);
 		
 		business.execute(request);
 	}
