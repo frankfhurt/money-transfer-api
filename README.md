@@ -1,5 +1,5 @@
 # money-transfer-api
-Restful API to transfer money between two accounts
+RESTful API for money transfer between two accounts
 
 ## Stack
 
