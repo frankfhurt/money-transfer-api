@@ -15,6 +15,7 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import com.moneytransfer.api.BusinessService;
+import com.moneytransfer.common.exception.CustomWebApplicationException;
 import com.moneytransfer.repository.ClientRepository;
 import com.moneytransfer.repository.entity.Account;
 import com.moneytransfer.repository.entity.Client;
@@ -48,6 +49,16 @@ public class ClientDetailBusinessServiceTest {
 		assertNotNull(response);
 		assertThat(response.getId(), is(request.getClientId()));
 	}
+	
+	@Test(expected = CustomWebApplicationException.class)
+	public void execute_clientNotFound() {
+		
+		business = new ClientDetailBusinessService(repository);
+		
+		ClientDetailRequest request = new ClientDetailRequest(1L);
+		
+		business.execute(request);
+	}
 
 	@Test
 	public void execute_validRequestWithMockRepository() {
@@ -61,6 +72,17 @@ public class ClientDetailBusinessServiceTest {
 
 		verify(mockRepository, times(1)).findById(any(Long.class));
 		assertNotNull(response);
+	}
+	
+	@Test(expected = CustomWebApplicationException.class)
+	public void execute_clientNotFoundWithMockRepository() {
+		when(mockRepository.findById(any())).thenReturn(null);
+		
+		business = new ClientDetailBusinessService(mockRepository);
+		
+		ClientDetailRequest request = new ClientDetailRequest(1L);
+		
+		business.execute(request);
 	}
 
 	private Client getValidClient() {
