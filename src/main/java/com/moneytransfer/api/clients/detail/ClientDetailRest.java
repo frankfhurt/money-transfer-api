@@ -9,6 +9,8 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import com.moneytransfer.api.BusinessService;
+import com.moneytransfer.repository.ClientRepository;
+import com.moneytransfer.repository.impl.ClientRepositoryImpl;
 
 /**
  * 
@@ -20,16 +22,29 @@ import com.moneytransfer.api.BusinessService;
 @Produces(MediaType.APPLICATION_JSON)
 public class ClientDetailRest {
 
-	BusinessService<ClientDetailRequest, ClientDetailResponse> businessService = new ClientDetailBusinessService();
+	private BusinessService<ClientDetailRequest, ClientDetailResponse> businessService;
+
+	private ClientRepository repository;
+
+	public ClientDetailRest() {
+		super();
+		this.repository = new ClientRepositoryImpl();
+		this.businessService = new ClientDetailBusinessService(repository);
+	}
+
+	public ClientDetailRest(BusinessService<ClientDetailRequest, ClientDetailResponse> businessService) {
+		super();
+		this.businessService = businessService;
+	}
 
 	@GET
 	@Path("{clientId}")
 	public Response detail(@PathParam("clientId") Long clientId) {
-		
+
 		ClientDetailRequest request = new ClientDetailRequest(clientId);
-		
+
 		ClientDetailResponse response = businessService.execute(request);
-		
+
 		return Response.status(Status.OK).entity(response).build();
 	}
 }

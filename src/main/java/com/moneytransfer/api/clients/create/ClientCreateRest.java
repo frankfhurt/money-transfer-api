@@ -12,6 +12,8 @@ import javax.ws.rs.core.Response.Status;
 
 import com.moneytransfer.api.BusinessService;
 import com.moneytransfer.common.ErrorResponse;
+import com.moneytransfer.repository.ClientRepository;
+import com.moneytransfer.repository.impl.ClientRepositoryImpl;
 
 /**
  * 
@@ -24,11 +26,14 @@ import com.moneytransfer.common.ErrorResponse;
 @Consumes(MediaType.APPLICATION_JSON)
 public class ClientCreateRest {
 
-	BusinessService<ClientCreateRequest, ClientCreateResponse> businessService;
+	private BusinessService<ClientCreateRequest, ClientCreateResponse> businessService;
+	
+	private ClientRepository repository;
 
 	public ClientCreateRest() {
 		super();
-		this.businessService = new ClientCreateBusinessService();
+		this.repository = new ClientRepositoryImpl();
+		this.businessService = new ClientCreateBusinessService(repository);
 	}
 	
 	public ClientCreateRest(BusinessService<ClientCreateRequest, ClientCreateResponse> businessService) {
