@@ -9,6 +9,7 @@ Restful API to transfer money between two accounts
 - H2 in memory database
 - Hibernate
 - JUnit
+- Mockito
 - Lombok
 - Mapstruct
 - Maven
