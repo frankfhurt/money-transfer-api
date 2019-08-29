@@ -55,7 +55,7 @@ public class TransferAmountBusinessServiceTest {
 	}
 
 	@Test
-	public void transferAmount_validRequest_shouldTransferAmounts() {
+	public void execute_validRequest_shouldTransferAmounts() {
 
 		Long clientIdSource = insertValidClient("User One", new BigDecimal("10"));
 		Long clientIdTarget = insertValidClient("User Two", new BigDecimal("15"));
@@ -68,15 +68,15 @@ public class TransferAmountBusinessServiceTest {
 
 		businessService.execute(request);
 
-		Client clientSource = clientRepository.getById(clientIdSource);
-		Client clientTarget = clientRepository.getById(clientIdTarget);
+		Client clientSource = clientRepository.findById(clientIdSource);
+		Client clientTarget = clientRepository.findById(clientIdTarget);
 		
 		assertThat(clientSource.getAccount().getBalance(), is(new BigDecimal("0.00")));
 		assertThat(clientTarget.getAccount().getBalance(), is(new BigDecimal("25.00")));
 	}
 	
 	@Test
-	public void transferAmountConcurrent_validRequest_shouldTransferAmounts() throws InterruptedException {
+	public void executeConcurrent_validRequest_shouldTransferAmounts() throws InterruptedException {
 		
 		int numberOfTransfers = 2000;
 		
@@ -104,15 +104,15 @@ public class TransferAmountBusinessServiceTest {
 		
 		countDown.await();
 		
-		Client clientSource = clientRepository.getById(clientIdSource);
-		Client clientTarget = clientRepository.getById(clientIdTarget);
+		Client clientSource = clientRepository.findById(clientIdSource);
+		Client clientTarget = clientRepository.findById(clientIdTarget);
 		
 		assertThat(clientSource.getAccount().getBalance(), is(new BigDecimal("0.00")));
 		assertThat(clientTarget.getAccount().getBalance(), is(new BigDecimal("2000.00")));
 	}
 	
 	@Test
-	public void transferAmountConcurrentUntilNoFunds_validRequest_shouldTransferAmounts() throws InterruptedException {
+	public void executeConcurrentUntilNoFunds_validRequest_shouldTransferAmounts() throws InterruptedException {
 		
 		int numberOfTransfers = 2010;
 		
@@ -147,8 +147,8 @@ public class TransferAmountBusinessServiceTest {
 		
 		countDown.await();
 		
-		Client clientSource = clientRepository.getById(clientIdSource);
-		Client clientTarget = clientRepository.getById(clientIdTarget);
+		Client clientSource = clientRepository.findById(clientIdSource);
+		Client clientTarget = clientRepository.findById(clientIdTarget);
 		
 		assertThat(clientSource.getAccount().getBalance(), is(new BigDecimal("0.00")));
 		assertThat(clientTarget.getAccount().getBalance(), is(new BigDecimal("2000.00")));
@@ -156,7 +156,7 @@ public class TransferAmountBusinessServiceTest {
 	}
 	
 	@Test
-	public void transferAmount_noFunds_CustomViolationExceptionThrown() {
+	public void execute_noFunds_CustomViolationExceptionThrown() {
 		
 		Violation violation = new Violation("balance", "Insufficient fund");
 
@@ -175,7 +175,7 @@ public class TransferAmountBusinessServiceTest {
 	}
 	
 	@Test
-	public void transferAmount_invalidFromClientId_CustomViolationExceptionThrown() {
+	public void execute_invalidFromClientId_CustomViolationExceptionThrown() {
 
 		Violation violation = new Violation("clientId", "Client Not Found");
 
@@ -194,7 +194,7 @@ public class TransferAmountBusinessServiceTest {
 	}
 	
 	@Test
-	public void transferAmount_invalidToClientId_CustomViolationExceptionThrown() {
+	public void execute_invalidToClientId_CustomViolationExceptionThrown() {
 
 		Violation violation = new Violation("toClientId", "Client Not Found");
 

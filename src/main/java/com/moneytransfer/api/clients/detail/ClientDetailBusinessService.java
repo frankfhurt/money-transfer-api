@@ -6,8 +6,8 @@ import com.moneytransfer.api.BusinessService;
 import com.moneytransfer.common.ErrorResponse;
 import com.moneytransfer.common.exception.CustomWebApplicationException;
 import com.moneytransfer.mappers.ProjectMappers;
+import com.moneytransfer.repository.ClientRepository;
 import com.moneytransfer.repository.entity.Client;
-import com.moneytransfer.repository.impl.ClientRepositoryImpl;
 
 /**
  * 
@@ -17,11 +17,16 @@ import com.moneytransfer.repository.impl.ClientRepositoryImpl;
  */
 public class ClientDetailBusinessService implements BusinessService<ClientDetailRequest, ClientDetailResponse> {
 
-	private ClientRepositoryImpl repository = new ClientRepositoryImpl();
+	private ClientRepository repository;
+
+	public ClientDetailBusinessService(ClientRepository repository) {
+		super();
+		this.repository = repository;
+	}
 
 	public ClientDetailResponse execute(ClientDetailRequest request) {
 
-		Client client = repository.getById(request.getClientId());
+		Client client = repository.findById(request.getClientId());
 
 		if (client == null)
 			throw new CustomWebApplicationException(Status.NOT_FOUND, new ErrorResponse("Client Not Found"));

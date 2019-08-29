@@ -28,7 +28,7 @@ public class ClientRepositoryImpl implements ClientRepository {
 	}
 
 	@Override
-	public Client getById(Long id) {
+	public Client findById(Long id) {
 
 		final Session session = HibernateSessionManager.getSession();
 		

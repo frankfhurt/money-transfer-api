@@ -12,6 +12,6 @@ public interface ClientRepository {
 
 	Client save(Client client);
 	
-	Client getById(Long id);
+	Client findById(Long id);
 	
 }

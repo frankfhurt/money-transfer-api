@@ -50,8 +50,8 @@ public class TransferAmountBusinessService implements BusinessService<TransferAm
 			if (!violations.isEmpty())
 				throw new CustomViolationException(violations);
 			
-			source = clientRepository.getById(request.getFromClientId());
-			target = clientRepository.getById(Long.valueOf(request.getToClientId()));
+			source = clientRepository.findById(request.getFromClientId());
+			target = clientRepository.findById(Long.valueOf(request.getToClientId()));
 
 			source.getAccount().subtractBalance(request.getAmount());
 			target.getAccount().addBalance(request.getAmount());

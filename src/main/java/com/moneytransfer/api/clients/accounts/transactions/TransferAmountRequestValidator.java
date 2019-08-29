@@ -37,14 +37,14 @@ public class TransferAmountRequestValidator implements RequestValidator {
 		
 		List<Violation> violations = new ArrayList<>();
 
-		Client source = clientRepository.getById(transferAmountRequest.getFromClientId());
+		Client source = clientRepository.findById(transferAmountRequest.getFromClientId());
 
 		if (source == null)
 			violations.add(new Violation("clientId", "Client Not Found"));
 		else if (source.getAccount().getBalance().compareTo(new BigDecimal(transferAmountRequest.getAmount())) == -1)
 			violations.add(new Violation("balance", "Insufficient fund"));
 
-		Client target = clientRepository.getById(Long.valueOf(transferAmountRequest.getToClientId()));
+		Client target = clientRepository.findById(Long.valueOf(transferAmountRequest.getToClientId()));
 
 		if (target == null)
 			violations.add(new Violation("toClientId", "Client Not Found"));

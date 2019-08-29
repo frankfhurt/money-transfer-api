@@ -41,7 +41,7 @@ public class TransferAmountRequestValidatorTest {
 	@Test
 	public void validate_validRequest() {
 	
-		when(repository.getById(anyLong())).thenReturn(getClient());
+		when(repository.findById(anyLong())).thenReturn(getClient());
 		
 		List<Violation> violations = validator.validate(TransferAmountRequest.builder().fromClientId(1L).amount("10").toClientId("2").build());
 		
@@ -51,7 +51,7 @@ public class TransferAmountRequestValidatorTest {
 	@Test
 	public void validate_invalidClientId() {
 		
-		when(repository.getById(2L)).thenReturn(getClient());
+		when(repository.findById(2L)).thenReturn(getClient());
 		
 		List<Violation> violations = validator.validate(TransferAmountRequest.builder().fromClientId(1L).amount("10").toClientId("2").build());
 		
@@ -62,7 +62,7 @@ public class TransferAmountRequestValidatorTest {
 	@Test
 	public void validate_toClientIdNotFound() {
 		
-		when(repository.getById(1L)).thenReturn(getClient());
+		when(repository.findById(1L)).thenReturn(getClient());
 		
 		List<Violation> violations = validator.validate(TransferAmountRequest.builder().fromClientId(1L).amount("10").toClientId("2").build());
 		
@@ -73,7 +73,7 @@ public class TransferAmountRequestValidatorTest {
 	@Test
 	public void validate_insufficientFund() {
 		
-		when(repository.getById(anyLong())).thenReturn(getClient());
+		when(repository.findById(anyLong())).thenReturn(getClient());
 		
 		List<Violation> violations = validator.validate(TransferAmountRequest.builder().fromClientId(1L).amount("20").toClientId("2").build());
 		
@@ -84,7 +84,7 @@ public class TransferAmountRequestValidatorTest {
 	@Test
 	public void validate_sameClientIds() {
 	
-		when(repository.getById(anyLong())).thenReturn(getClient());
+		when(repository.findById(anyLong())).thenReturn(getClient());
 		
 		List<Violation> violations = validator.validate(TransferAmountRequest.builder().fromClientId(1L).amount("10").toClientId("1").build());
 		
@@ -95,7 +95,7 @@ public class TransferAmountRequestValidatorTest {
 	@Test(expected = IllegalArgumentException.class)
 	public void validate_invalidRequestClass() {
 		
-		when(repository.getById(anyLong())).thenReturn(getClient());
+		when(repository.findById(anyLong())).thenReturn(getClient());
 		
 		validator.validate(new InvalidRequestClass());
 	}
